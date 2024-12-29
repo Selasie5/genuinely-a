@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Fira_Code } from "next/font/google"
 import "./globals.css";
-import Navbar from "./components/Navbar";
-import { Provider } from "./utils/Provider";
+import Navbar from "../components/Navbar";
+import { Provider } from "../utils/Provider";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",

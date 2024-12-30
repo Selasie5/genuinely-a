@@ -6,7 +6,7 @@ import Toc from "@/app/components/Toc";
 import { slugify } from "@/app/utils/helpers";
 import { Post } from "@/app/utils/interface";
 import { client } from "@/sanity/lib/client";
-import { urlForImage} from "@/sanity/lib/image";
+import { urlForImage } from "@/sanity/lib/image";
 import { PortableText } from "@portabletext/react";
 import { Metadata } from "next";
 import { VT323 } from "next/font/google";
@@ -17,6 +17,7 @@ import React from "react";
 
 const dateFont = VT323({ weight: "400", subsets: ["latin"] });
 
+// Define Params and PageProps types
 interface Params {
   params: {
     slug: string;
@@ -26,6 +27,12 @@ interface Params {
   };
 }
 
+interface PageProps {
+  params: Params['params'];  // Extract params correctly
+  searchParams: Params['searchParams'];
+}
+
+// Fetch post data
 async function getPost(slug: string, commentsOrder: string = "desc") {
   const query = `
   *[_type == "post" && slug.current == "${slug}"][0] {
@@ -48,19 +55,20 @@ async function getPost(slug: string, commentsOrder: string = "desc") {
     }
   }
   `;
-
   const post = await client.fetch(query);
   return post;
 }
 
+// Revalidate settings for the page
 export const revalidate = 60;
 
+// Generate metadata for the page
 export async function generateMetadata({
   params,
-}: Params): Promise<Metadata | undefined> {
-  const post: Post = await getPost(params?.slug);
+}: { params: { slug: string } }): Promise<Metadata | undefined> {
+  const post: Post = await getPost(params.slug);
   if (!post) {
-    return;
+    return undefined;
   }
 
   return {
@@ -73,23 +81,14 @@ export async function generateMetadata({
       locale: "en_US",
       url: `https://next-cms-blog-ce.vercel.app/${params.slug}`,
       siteName: "DevBlook",
-      images: [
-        // {
-        //   url: post.image,
-        // }
-        // {
-        //   url: urlForImage(post?.body?.find((b: any) => b._type === "image")).width(1200).height(630).url(),
-        //   width: 1200,
-        //   height: 630,
-        // },
-      ],
     },
   };
 }
 
-const page = async ({ params, searchParams }: Params) => {
+// Page component to render the post and its content
+const page = async ({ params, searchParams }: PageProps) => {
   const commentsOrder = searchParams?.comments || "desc";
-  const post: Post = await getPost(params?.slug, commentsOrder.toString());
+  const post: Post = await getPost(params.slug, commentsOrder.toString());
 
   if (!post) {
     notFound();
@@ -131,6 +130,7 @@ const page = async ({ params, searchParams }: Params) => {
 
 export default page;
 
+// PortableText components for rich text rendering
 const myPortableTextComponents = {
   types: {
     image: ({ value }: any) => (
@@ -186,6 +186,7 @@ const myPortableTextComponents = {
   },
 };
 
+// Styling for rich text content
 const richTextStyles = `
 mt-14
 text-justify

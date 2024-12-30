@@ -20,10 +20,8 @@ import React from "react";
 const dateFont = VT323({ subsets: ["latin"], weight: "400" });
 
 // Corrected PageProps type definition
-interface PageProps {
-  params: {
-    slug: string;
-  };
+interface Props {
+  params: { slug: string };
 }
 
 // Fetch post data based on slug and comments order
@@ -78,7 +76,7 @@ export async function generateMetadata({
 }
 
 // Page component rendering the post and handling comments
-const page = async ({ params }: PageProps) => {
+const page = async ({ params }: Props) => {
   // Directly destructure `slug` from `params`
   const { slug } = params;
 

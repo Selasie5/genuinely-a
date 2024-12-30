@@ -27,6 +27,8 @@ export default async function Home() {
   const posts: Post[] = await getPosts();
   console.log(posts, "posts");
 
+  
+
   return (
     <div>
       <Header title="Articles" tags />

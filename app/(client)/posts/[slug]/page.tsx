@@ -15,9 +15,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 
+// Define the dateFont using the VT323 font from Google Fonts
 const dateFont = VT323({ weight: "400", subsets: ["latin"] });
 
-// Define Params and PageProps types
+// Adjust the type for PageProps to match Next.js expectations
 interface Params {
   params: {
     slug: string;
@@ -28,11 +29,11 @@ interface Params {
 }
 
 interface PageProps {
-  params: Params['params'];  // Extract params correctly
-  searchParams: Params['searchParams'];
+  params: { slug: string };  // Define params type as { slug: string }
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-// Fetch post data
+// Fetch post data based on slug and comments order
 async function getPost(slug: string, commentsOrder: string = "desc") {
   const query = `
   *[_type == "post" && slug.current == "${slug}"][0] {
@@ -59,10 +60,10 @@ async function getPost(slug: string, commentsOrder: string = "desc") {
   return post;
 }
 
-// Revalidate settings for the page
+// Revalidate setting for this page
 export const revalidate = 60;
 
-// Generate metadata for the page
+// Generate metadata dynamically
 export async function generateMetadata({
   params,
 }: { params: { slug: string } }): Promise<Metadata | undefined> {
@@ -85,7 +86,7 @@ export async function generateMetadata({
   };
 }
 
-// Page component to render the post and its content
+// Page component rendering the post and handling comments
 const page = async ({ params, searchParams }: PageProps) => {
   const commentsOrder = searchParams?.comments || "desc";
   const post: Post = await getPost(params.slug, commentsOrder.toString());
@@ -130,7 +131,7 @@ const page = async ({ params, searchParams }: PageProps) => {
 
 export default page;
 
-// PortableText components for rich text rendering
+// PortableText components for rendering rich text content
 const myPortableTextComponents = {
   types: {
     image: ({ value }: any) => (

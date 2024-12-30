@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import AddComment from "@/app/components/AddComment";
 import AllComments from "@/app/components/AllComments";
 import Header from "@/app/components/Header";
@@ -15,21 +14,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 
-// Define the dateFont using the VT323 font from Google Fonts
-const dateFont = VT323({ weight: "400", subsets: ["latin"] });
+// Define the dateFont variable
+const dateFont = VT323({ subsets: ["latin"], weight: "400" });
 
-// Adjust the type for PageProps to match Next.js expectations
-interface Params {
-  params: {
-    slug: string;
-  };
-  searchParams: {
-    [key: string]: string | string[] | undefined;
-  };
-}
-
+// Adjust the PageProps to reflect the async nature of the params
 interface PageProps {
-  params: { slug: string };  // Define params type as { slug: string }
+  params: Promise<{ slug: string }>;  // Make params a Promise type
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
@@ -88,8 +78,11 @@ export async function generateMetadata({
 
 // Page component rendering the post and handling comments
 const page = async ({ params, searchParams }: PageProps) => {
+  // Await the promise to resolve the params (slug)
+  const { slug } = await params;
+
   const commentsOrder = searchParams?.comments || "desc";
-  const post: Post = await getPost(params.slug, commentsOrder.toString());
+  const post: Post = await getPost(slug, commentsOrder.toString());
 
   if (!post) {
     notFound();

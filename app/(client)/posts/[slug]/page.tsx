@@ -5,7 +5,7 @@ import Toc from "@/app/components/Toc";
 import { slugify } from "@/app/utils/helpers";
 import { Post } from "@/app/utils/interface";
 import { client } from "@/sanity/lib/client";
-import { urlFor } from "@/sanity/lib/image";
+import { urlForImage} from "@/sanity/lib/image";
 import { PortableText } from "@portabletext/react";
 import { Metadata } from "next";
 import { VT323 } from "next/font/google";
@@ -134,7 +134,7 @@ const myPortableTextComponents = {
   types: {
     image: ({ value }: any) => (
       <Image
-        src={urlFor(value).url()}
+        src={urlForImage(value).url()}
         alt="Post"
         width={700}
         height={700}

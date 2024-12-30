@@ -19,16 +19,15 @@ import React from "react";
 // Define the dateFont variable
 const dateFont = VT323({ subsets: ["latin"], weight: "400" });
 
-// Adjust the PageProps to reflect the async nature of the params
+// Corrected PageProps type definition
 interface PageProps {
-  params: { slug: string };  // Make params a direct object, not a Promise
+  params: { slug: string };  // No need for Promise<{ slug: string }>
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
 // Fetch post data based on slug and comments order
 async function getPost(slug: string, commentsOrder: string = "desc") {
-  const query = `
-  *[_type == "post" && slug.current == "${slug}"][0] {
+  const query = `*[_type == "post" && slug.current == "${slug}"][0] {
     title,
     slug,
     publishedAt,
@@ -46,8 +45,7 @@ async function getPost(slug: string, commentsOrder: string = "desc") {
       comment,
       _createdAt,
     }
-  }
-  `;
+  }`;
   const post = await client.fetch(query);
   return post;
 }
@@ -80,8 +78,8 @@ export async function generateMetadata({
 
 // Page component rendering the post and handling comments
 const page = async ({ params, searchParams }: PageProps) => {
-  // Await the promise to resolve the params (slug)
-  const { slug } = params;  // No need to await since it's not a Promise
+  // Directly destructure `slug` from `params`
+  const { slug } = params;
 
   const commentsOrder = searchParams?.comments || "desc";
   const post: Post = await getPost(slug, commentsOrder.toString());
@@ -183,16 +181,4 @@ const myPortableTextComponents = {
 };
 
 // Styling for rich text content
-const richTextStyles = `
-mt-14
-text-justify
-max-w-2xl
-m-auto
-prose-headings:my-5
-prose-heading:text-2xl
-prose-p:mb-5
-prose-p:leading-7
-prose-li:list-disc
-prose-li:leading-7
-prose-li:ml-4
-`;
+const richTextStyles = `mt-14 text-justify max-w-2xl m-auto prose-headings:my-5 prose-heading:text-2xl prose-p:mb-5 prose-p:leading-7 prose-li:list-disc prose-li:leading-7 prose-li:ml-4`;

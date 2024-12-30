@@ -21,8 +21,9 @@ const dateFont = VT323({ subsets: ["latin"], weight: "400" });
 
 // Corrected PageProps type definition
 interface PageProps {
-  params: { slug: string };  // No need for Promise<{ slug: string }>
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: {
+    slug: string;
+  };
 }
 
 // Fetch post data based on slug and comments order
@@ -77,11 +78,12 @@ export async function generateMetadata({
 }
 
 // Page component rendering the post and handling comments
-const page = async ({ params, searchParams }: PageProps) => {
+const page = async ({ params }: PageProps) => {
   // Directly destructure `slug` from `params`
   const { slug } = params;
 
-  const commentsOrder = searchParams?.comments || "desc";
+  const searchParams = new URLSearchParams(window.location.search);
+  const commentsOrder = searchParams.get('comments') || "desc";
   const post: Post = await getPost(slug, commentsOrder.toString());
 
   if (!post) {

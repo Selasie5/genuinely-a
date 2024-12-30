@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import AddComment from "@/app/components/AddComment";
 import AllComments from "@/app/components/AllComments";
 import Header from "@/app/components/Header";

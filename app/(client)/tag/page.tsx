@@ -1,5 +1,4 @@
 import Header from "@/app/components/Header";
-import Navbar from "@/app/components/Navbar";
 import { Tag } from "@/app/utils/interface";
 import { client } from "@/sanity/lib/client";
 import { Metadata } from "next";

@@ -21,7 +21,7 @@ const dateFont = VT323({ subsets: ["latin"], weight: "400" });
 
 // Adjust the PageProps to reflect the async nature of the params
 interface PageProps {
-  params: Promise<{ slug: string }>;  // Make params a Promise type
+  params: { slug: string };  // Make params a direct object, not a Promise
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
@@ -81,7 +81,7 @@ export async function generateMetadata({
 // Page component rendering the post and handling comments
 const page = async ({ params, searchParams }: PageProps) => {
   // Await the promise to resolve the params (slug)
-  const { slug } = await params;
+  const { slug } = params;  // No need to await since it's not a Promise
 
   const commentsOrder = searchParams?.comments || "desc";
   const post: Post = await getPost(slug, commentsOrder.toString());

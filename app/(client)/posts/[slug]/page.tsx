@@ -1,7 +1,7 @@
 import AddComment from "@/app/components/AddComment";
 import AllComments from "@/app/components/AllComments";
 import Header from "@/app/components/Header";
-import Toc from "@/app/components/Toc";
+// import Toc from "@/app/components/Toc";
 import { slugify } from "@/app/utils/helpers";
 import { Post } from "@/app/utils/interface";
 import { client } from "@/sanity/lib/client";
@@ -109,7 +109,7 @@ const Page = async ({ params }: Props) => {
             </Link>
           ))}
         </div>
-        <Toc headings={post?.headings} />
+        {/* <Toc headings={post?.headings} /> */}
         <div className={richTextStyles}>
           <PortableText
             value={post?.body}

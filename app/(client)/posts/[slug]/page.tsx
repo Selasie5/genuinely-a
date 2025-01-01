@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/* */
-
 import AddComment from "@/app/components/AddComment";
 import AllComments from "@/app/components/AllComments";
 import Header from "@/app/components/Header";
@@ -16,12 +14,20 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 
-// Define the dateFont variable
+// Define the font
 const dateFont = VT323({ subsets: ["latin"], weight: "400" });
 
-// Corrected PageProps type definition
-interface Props {
-  params: { slug: string };
+// Define PageParams and Props types
+interface PageParams {
+  slug: string;
+}
+
+interface PageProps {
+  // Define the properties of PageProps here
+}
+
+interface Props extends PageProps {
+  params: PageParams;
 }
 
 // Fetch post data based on slug and comments order
@@ -55,7 +61,7 @@ export const revalidate = 60;
 // Generate metadata dynamically
 export async function generateMetadata({
   params,
-}: { params: { slug: string } }): Promise<Metadata | undefined> {
+}: Props): Promise<Metadata | undefined> {
   const post: Post = await getPost(params.slug);
   if (!post) {
     return undefined;
@@ -76,13 +82,12 @@ export async function generateMetadata({
 }
 
 // Page component rendering the post and handling comments
-const page = async ({ params }: Props) => {
-  // Directly destructure `slug` from `params`
+const Page = async ({ params }: Props) => {
   const { slug } = params;
 
-  const searchParams = new URLSearchParams(window.location.search);
-  const commentsOrder = searchParams.get('comments') || "desc";
-  const post: Post = await getPost(slug, commentsOrder.toString());
+  // Set default order for comments
+  const commentsOrder = "desc";
+  const post: Post = await getPost(slug, commentsOrder);
 
   if (!post) {
     notFound();
@@ -114,7 +119,7 @@ const page = async ({ params }: Props) => {
           <AllComments
             comments={post?.comments || []}
             slug={post?.slug?.current}
-            commentsOrder={commentsOrder.toString()}
+            commentsOrder={commentsOrder}
           />
         </div>
       </div>
@@ -122,7 +127,7 @@ const page = async ({ params }: Props) => {
   );
 };
 
-export default page;
+export default Page;
 
 // PortableText components for rendering rich text content
 const myPortableTextComponents = {

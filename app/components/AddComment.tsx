@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 
 interface Props {
   postId: string;
+  refetchComments: () => void; // Add this prop
 }
 
 interface CommentFormData {
@@ -11,7 +12,7 @@ interface CommentFormData {
   comment: string;
 }
 
-const AddComment = ({ postId }: Props) => {
+const AddComment = ({ postId, refetchComments }: Props) => {
   const {
     register,
     handleSubmit,
@@ -31,15 +32,15 @@ const AddComment = ({ postId }: Props) => {
     });
 
     if (!res.ok) {
-      const errorData = await res.json(); // Log the error response
-      console.error("Failed to add comment:", errorData);
+      console.error("Failed to add comment");
       return;
     }
 
-    const responseData = await res.json(); // Log the success response
-    console.log("Comment added successfully:", responseData);
-
+    // Reset the form
     reset();
+
+    // Refetch comments after adding a new comment
+    refetchComments();
   };
 
   return (

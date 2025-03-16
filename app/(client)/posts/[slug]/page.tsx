@@ -54,11 +54,10 @@ async function getPost(slug: string) {
 // Revalidate setting for this page
 export const revalidate = 60;
 
-// Generate metadata dynamically
 export async function generateMetadata({
   params,
 }: Props): Promise<Metadata | undefined> {
-  const post: Post = await getPost(params.slug);
+  const post: Post = await getPost(params.slug); // Ensure this is awaited
   if (!post) {
     return undefined;
   }
@@ -76,15 +75,10 @@ export async function generateMetadata({
     },
   };
 }
-
-// Page component rendering the post and handling comments
 const Page = async ({ params }: Props) => {
   const { slug } = params;
 
-  // Set default order for comments
-  // const commentsOrder = "desc";
   const post: Post = await getPost(slug);
-
   const commentsOrder = "desc"; // Default order
   const comments = await fetchComments(post._id, commentsOrder);
 
@@ -108,25 +102,22 @@ const Page = async ({ params }: Props) => {
             </Link>
           ))}
         </div>
-        {/* <Toc headings={post?.headings} /> */}
         <div className={richTextStyles}>
           <PortableText
             value={post?.body}
             components={myPortableTextComponents}
           />
-                   <AddComment postId={post?._id} />
+          {/* Pass comments and slug to AllComments */}
           <AllComments
+            slug={post.slug.current}
             comments={comments}
-            slug={post?.slug?.current}
             commentsOrder={commentsOrder}
           />
-
         </div>
       </div>
     </div>
   );
 };
-
 export default Page;
 
 // PortableText components for rendering rich text content

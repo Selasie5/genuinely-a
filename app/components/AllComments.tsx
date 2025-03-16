@@ -1,7 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { supabase } from "../lib/supabase";
+import { supabase } from "@/app/lib/supabase"; // Import Supabase client
+import AddComment from "@/app/components/AddComment"; // Import AddComment
 
 interface Comment {
   id: string;
@@ -13,35 +14,33 @@ interface Comment {
 
 interface Props {
   slug: string;
-  commentsOrder: string;
-  comments: any[];
+  comments: Comment[]; // Initial comments passed from the server
+  commentsOrder: "asc" | "desc";
 }
 
-const AllComments = ({ slug, commentsOrder }: Props) => {
-  const [comments, setComments] = useState<Comment[]>([]);
+const AllComments = ({ slug, comments: initialComments, commentsOrder }: Props) => {
+  const [comments, setComments] = useState<Comment[]>(initialComments);
 
+  // Function to refetch comments
+  const refetchComments = async () => {
+    const { data, error } = await supabase
+      .from("comments")
+      .select("*")
+      .eq("post_id", slug)
+      .order("created_at", { ascending: commentsOrder === "asc" });
+
+    if (!error && data) {
+      setComments(data);
+    }
+  };
+
+  // Fetch initial comments when the component mounts
   useEffect(() => {
-    const fetchComments = async () => {
-      const { data, error } = await supabase
-        .from("comments")
-        .select("*")
-        .eq("post_id", slug)
-        .order("created_at", { ascending: commentsOrder === "asc" });
-
-      if (error) {
-        console.error("Error fetching comments:", error);
-        return;
-      }
-
-      console.log("Fetched comments:", data); // Log the fetched comments
-      setComments(data || []);
-    };
-
-    fetchComments();
+    refetchComments();
   }, [slug, commentsOrder]);
 
   return (
-    <div>
+    <div className="my-4">
       <h3>All Comments</h3>
       {comments.length === 0 && <p>No comments yet.</p>}
       {comments.length > 0 && (
@@ -77,6 +76,8 @@ const AllComments = ({ slug, commentsOrder }: Props) => {
           <p>{comment.comment}</p>
         </div>
       ))}
+      {/* Pass refetchComments to AddComment */}
+      <AddComment postId={slug} refetchComments={refetchComments} />
     </div>
   );
 };

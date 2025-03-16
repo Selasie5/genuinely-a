@@ -24,13 +24,20 @@ const AddComment = ({ postId }: Props) => {
 
     const res = await fetch("/api/comment", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ name, email, comment, postId }),
     });
 
     if (!res.ok) {
-      console.log("Failed to add comment");
+      const errorData = await res.json(); // Log the error response
+      console.error("Failed to add comment:", errorData);
       return;
     }
+
+    const responseData = await res.json(); // Log the success response
+    console.log("Comment added successfully:", responseData);
 
     reset();
   };

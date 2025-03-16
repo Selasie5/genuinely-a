@@ -13,6 +13,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
+import { fetchComments } from "@/app/lib/comments";
 
 // Define the font
 const dateFont = VT323({ subsets: ["latin"], weight: "400" });
@@ -31,7 +32,7 @@ interface Props extends PageProps {
 }
 
 // Fetch post data based on slug and comments order
-async function getPost(slug: string, commentsOrder: string = "desc") {
+async function getPost(slug: string) {
   const query = `*[_type == "post" && slug.current == "${slug}"][0] {
     title,
     slug,
@@ -44,11 +45,6 @@ async function getPost(slug: string, commentsOrder: string = "desc") {
       _id,
       slug,
       name
-    },
-    "comments": *[_type == "comment" && post._ref == ^._id ] | order(_createdAt ${commentsOrder}) {
-      name,
-      comment,
-      _createdAt,
     }
   }`;
   const post = await client.fetch(query);
@@ -86,8 +82,11 @@ const Page = async ({ params }: Props) => {
   const { slug } = params;
 
   // Set default order for comments
-  const commentsOrder = "desc";
-  const post: Post = await getPost(slug, commentsOrder);
+  // const commentsOrder = "desc";
+  const post: Post = await getPost(slug);
+
+  const commentsOrder = "desc"; // Default order
+  const comments = await fetchComments(post._id, commentsOrder);
 
   if (!post) {
     notFound();
@@ -115,12 +114,13 @@ const Page = async ({ params }: Props) => {
             value={post?.body}
             components={myPortableTextComponents}
           />
-          <AddComment postId={post?._id} />
+                   <AddComment postId={post?._id} />
           <AllComments
-            comments={post?.comments || []}
+            comments={comments}
             slug={post?.slug?.current}
             commentsOrder={commentsOrder}
           />
+
         </div>
       </div>
     </div>

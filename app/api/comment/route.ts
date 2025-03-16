@@ -1,4 +1,4 @@
-import { client } from "@/sanity/lib/client";
+import { supabase } from "@/app/lib/supabase";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -7,29 +7,28 @@ export async function POST(req: Request) {
 
   if (!name || !email || !comment || !postId) {
     return NextResponse.json(
-      {
-        message: "All fields are required",
-      },
+      { message: "All fields are required" },
       { status: 400 }
     );
   }
 
   try {
-    const newComment = await client.create({
-      _type: "comment",
-      name,
-      email,
-      comment,
-      post: {
-        _type: "reference",
-        _ref: postId,
-      },
-    });
+    const { data, error } = await supabase
+      .from("comments")
+      .insert([{ name, email, comment, post_id: postId }])
+      .select();
+
+    if (error) {
+      console.error("Supabase error:", error); // Log the error
+      throw error;
+    }
+
     return NextResponse.json(
-      { message: "Comment added successfully", commet: newComment },
+      { message: "Comment added successfully", comment: data },
       { status: 201 }
     );
   } catch (error) {
+    console.error("API route error:", error); // Log the error
     return NextResponse.json(
       { message: "Failed to create a comment", error },
       { status: 500 }

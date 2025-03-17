@@ -30,7 +30,7 @@ export default function RootLayout({
         <Navbar/>
         <main className="mx-auto max-w-5xl px-6">
         {children}
-        <span className="flex  justify-end items-end text-white text-md p-3 font-semibold">
+        <span className="flex  justify-end items-end text-gray-600 italic text-md p-3 font-semibold">
           v 1 . 0 . 0 
         </span>
         </main>

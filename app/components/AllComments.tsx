@@ -41,8 +41,8 @@ const AllComments = ({ slug, comments: initialComments, commentsOrder }: Props) 
 
   return (
     <div className="my-4">
-      <h3>All Comments</h3>
-      {comments.length === 0 && <p>No comments yet.</p>}
+      <h3 className="text-2xl font-bold">All Comments</h3>
+      {comments.length === 0 && <p className="italic text-gray-400 font-semibold">No comments yet.</p>}
       {comments.length > 0 && (
         <div className="mb-2">
           <Link

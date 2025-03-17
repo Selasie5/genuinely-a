@@ -1,5 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
+import { Send , Loader} from 'lucide-react';
 
 interface Props {
   postId: string;
@@ -94,14 +95,27 @@ const AddComment = ({ postId, refetchComments }: Props) => {
           <p className="text-red-600 text-xs">{errors.comment.message}</p>
         )}
 
-        <input
+        <button
           className={`cursor-pointer bg-purple-500 text-white rounded py-2 hover:bg-purple-600 ${
             isSubmitting ? "opacity-50" : ""
           }`}
           disabled={isSubmitting}
-          value={isSubmitting ? "Submitting..." : "Submit"}
           type="submit"
-        />
+        >
+          {isSubmitting ? (
+            <span className="flex items-center justify-center">
+ <Loader className="animate-spin text-sm mx-4" />
+            </span>
+           
+          ):(
+              
+               <span className="flex items-center justify-center gap-2">
+                <Send size={16}/>
+                Comment
+                </span>
+
+          )}
+          </button>
       </form>
     </div>
   );

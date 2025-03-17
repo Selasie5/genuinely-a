@@ -8,7 +8,7 @@ import { client } from "@/sanity/lib/client";
 import { urlForImage } from "@/sanity/lib/image";
 import { PortableText } from "@portabletext/react";
 import { Metadata } from "next";
-import { VT323 } from "next/font/google";
+import { Bricolage_Grotesque } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -16,7 +16,7 @@ import React from "react";
 import { fetchComments } from "@/app/lib/comments";
 
 // Define the font
-const dateFont = VT323({ subsets: ["latin"], weight: "400" });
+const dateFont = Bricolage_Grotesque({ subsets: ["latin"], weight: "400" });
 
 // Define PageParams and Props types
 interface PageParams {

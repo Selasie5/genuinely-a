@@ -11,7 +11,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchPosts() {
       const query = `
-      *[_type == "post"] {
+      *[_type == "post"] | order(publishedAt desc) {
         _id,
         title,
         slug,

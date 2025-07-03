@@ -17,6 +17,12 @@ export default function Home() {
         slug,
         publishedAt,
         excerpt,
+        mainImage {
+      asset-> {
+      _id,
+      url
+    }
+    },
         tags[]-> {
           _id,
           slug,
@@ -29,8 +35,7 @@ export default function Home() {
     }
 
     fetchPosts();
-  }, []); // Empty dependency array ensures this runs only once when the component mounts.
-
+  }, []); 
   return (
     <div>
       <Header title="Articles" tags />

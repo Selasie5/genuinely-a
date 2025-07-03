@@ -9,14 +9,14 @@ interface Props {
 
 const Header = ({ title = "", tags = false }: Props) => {
   return (
-    <header className="py-14 px-4 mb-12 text-center border-b dark:border-purple-900">
-      <h2 className="uppercase text-2xl mx-auto max-w-2xl font-bold">
+    <header className="flex justify-between items-center w-full  py-4 mt-10">
+      {/* <h2 className=" uppercase text-2xl md:text-4xl  max-w-2xl font-normal tracking-wider">
         {title}
-      </h2>
+      </h2> */}
 
       {tags && (
-        <div className="text-xs mt-2 hover:text-purple-500">
-          <Link href="/tag">#tags</Link>
+        <div className=" ">
+          <Link href="/tag" className="text-xs md:text-sm mt-2 hover:text-purple-400 tracking-wider border border-purple-400 px-4 py-2 rounded-sm mt-4">Tags</Link>
         </div>
       )}
     </header>

@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       type: "website",
       locale: "en_US",
       url: `https://next-cms-blog-ce.vercel.app/${slug}`,
-      siteName: "DevBlook",
+      siteName: "Genuinely A",
     },
   };
 }

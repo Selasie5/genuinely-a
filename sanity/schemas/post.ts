@@ -51,7 +51,22 @@ export const post = {
                     ],
                 },
             ],
-        },
+        },{
+  name: "mainImage",
+  title: "Main Image",
+  type: "image",
+  fields: [
+    {
+      name: "alt",
+      title: "Alternative Text",
+      type: "string",
+      validation: (Rule: Rule) => Rule.required().error("Alt text is required"),
+    },
+  ],
+  options: {
+    hotspot: true,
+  },
+},
         {
             name: "tags",
             title: "Tags",

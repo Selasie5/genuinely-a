@@ -30,3 +30,13 @@
   0%,49.9%{transform:scaleX( 1)}
   50%,100%{transform:scaleX(-1)}
 }
+
+@font-face {
+  font-family: "Clash Display";
+  src: url("/fonts/ClashDisplay-Variable.ttf") format("truetype");
+}
+
+
+body{
+  font-family: "Clash Display", sans-serif;
+}

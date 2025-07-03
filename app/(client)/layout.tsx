@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque} from "next/font/google"
+import {Manrope} from "next/font/google"
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import { Provider } from "../utils/Provider";
@@ -9,7 +9,7 @@ import { Provider } from "../utils/Provider";
 //   subsets: ["latin"],
 // });
 
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
+const bricolage = Manrope({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Genuinely A",

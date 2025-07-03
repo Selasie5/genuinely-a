@@ -18,12 +18,22 @@ export interface RichTextMarkDef {
   href?: string; // Optional URL for links
 }
 
+interface SanityImages {
+  _type: "image",
+  asset: {
+    _ref:string;
+    _type:"reference";
+  };
+  alt?:string;
+}
+
 export interface Post {
   title: string;
   slug: { current: string };
   publishedAt: string;
   excerpt: string;
-  body: Array<RichTextBlock>; // Corrected to RichTextBlock
+  body: Array<RichTextBlock>; 
+  mainImage:SanityImages;
   tags: Array<Tag>;
   _id: string;
   headings?: Array<HTMLHeadElement | string>;

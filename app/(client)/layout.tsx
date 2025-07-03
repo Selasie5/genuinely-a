@@ -24,11 +24,11 @@ export default function RootLayout({
   return (
     <html lang="en">
      <body
-        className={`${bricolage.className} h-full bg-amber-50 text-indigo-950 dark:bg-slate-950 dark:text-amber-50 dark:selection:bg-purple-500`}
+        className={`${bricolage.className} h-full bg-amber-50 text-indigo-950 dark:bg-slate-950 dark:text-amber-50 dark:selection:bg-purple-500 `}
       >
         <Provider>
         <Navbar/>
-        <main className="mx-auto max-w-5xl px-6">
+        <main className="mx-auto max-5-5xl px-6 ">
         {children}
         <span className="flex  justify-end items-end text-gray-600 italic text-md p-3 font-semibold">
           v 0.2.1-0

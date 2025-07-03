@@ -39,9 +39,15 @@ export default function Home() {
   return (
     <div>
       <Header title="Articles" tags />
-      <div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-5" >
         {posts?.length > 0 &&
-          posts.map((post) => <PostComponent key={post._id} post={post} />)}
+          posts.map((post) =>(
+            <div className="" key={post._id}>
+                <PostComponent key={post._id} post={post} />
+              </div>
+          
+          )
+           )}
       </div>
     </div>
   );

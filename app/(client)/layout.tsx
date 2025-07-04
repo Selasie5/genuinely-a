@@ -24,8 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en">
      <body
-        className={`${bricolage.className} h-full bg-amber-50 text-indigo-950 dark:bg-slate-950 dark:text-amber-50 dark:selection:bg-purple-500 `}
+        className={`h-full bg-amber-50 text-indigo-950 dark:bg-slate-950 dark:text-amber-50 dark:selection:bg-purple-500 `}
       >
+        {/* ${bricolage.className}  */}
         <Provider>
         <Navbar/>
         <main className="mx-auto max-5-5xl px-6 ">

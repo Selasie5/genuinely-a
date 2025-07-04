@@ -8,8 +8,8 @@ interface Props {
   post: Post;
 }
 
-const font = Manrope({ weight: '800', subsets: ['latin'] });
-const dateFont = Manrope({ weight: '400', subsets: ['latin'] });
+// const font = Manrope({ weight: '800', subsets: ['latin'] });
+// const dateFont = Manrope({ weight: '400', subsets: ['latin'] });
 
 const PostComponent = ({ post }: Props) => {
   const imageUrl = post?.mainImage?.asset ? urlForImage(post.mainImage.asset).url() : null;
@@ -23,10 +23,15 @@ const PostComponent = ({ post }: Props) => {
       <div className="relative z-10  p-4">
         <div className='flex flex-col items-start justify-start h-full'>
  <Link href={`/posts/${post?.slug?.current}`}>
-          <h2 className={`${font.className} text-2xl text-white font-semibold`}>{post?.title}</h2>
+          <h2 className={`
+           
+            text-2xl text-white font-semibold`}>{post?.title}</h2>
+             {/* ${font.className}  */}
                    <p className="text-gray-200 mb-4 line-clamp-2">{post?.excerpt}</p>
-          <p className={`${dateFont.className} my-2 text-sm  text-purple-300`}>{new Date(post?.publishedAt).toDateString()}</p>
- 
+          <p className={`
+           
+             my-2 text-sm  text-purple-300`}>{new Date(post?.publishedAt).toDateString()}</p>
+  {/* ${dateFont.className} */}
         </Link>
 
         {/* TAGS */}

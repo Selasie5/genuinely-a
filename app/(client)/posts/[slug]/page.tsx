@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic"
 import AddComment from "@/app/components/AddComment";
 import AllComments from "@/app/components/AllComments";
 import Header from "@/app/components/Header";
@@ -14,9 +15,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 import { fetchComments } from "@/app/lib/comments";
+import ShareSocialWrapper from "@/app/components/ShareSocialWrapper";
+
 
 // Define the font
 const dateFont = Bricolage_Grotesque({ subsets: ["latin"], weight: "400" });
+
 
 // Define PageParams and Props types
 interface PageParams {
@@ -102,7 +106,11 @@ const Page = async ({ params }: Props) => {
             </Link>
           ))}
         </div>
-        <div className={richTextStyles}>
+        <ShareSocialWrapper
+          url="url_to_share.com"
+          socialTypes={["facebook", "twitter", "reddit", "linkedin"]}
+        />
+         <div className={richTextStyles}>
           <PortableText
             value={post?.body}
             components={myPortableTextComponents}

@@ -107,8 +107,8 @@ const Page = async ({ params }: Props) => {
           ))}
         </div>
         <ShareSocialWrapper
-          url="url_to_share.com"
-          socialTypes={["facebook", "twitter", "reddit", "linkedin"]}
+          path={`/posts/${post.slug.current}`}
+          socialTypes={["facebook", "twitter", "reddit", "linkedin", "whatsapp"]}
         />
          <div className={richTextStyles}>
           <PortableText
